@@ -6,15 +6,25 @@
  */
 
 import React from 'react';
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import {Text} from './src/components/Text';
+import {ThemeProvider} from '@shopify/restyle';
+import {theme} from './src/theme/theme';
+import {Button} from './src/components/Button';
 
 function App(): JSX.Element {
   return (
-    <SafeAreaView>
-      <Text preset="headingLarge">Teste</Text>
-      <Text preset="headingLarge">Teste</Text>
-    </SafeAreaView>
+    <ThemeProvider theme={theme}>
+      <SafeAreaView>
+        <View style={{paddingHorizontal: 24}}>
+          <Text preset="headingLarge">Teste</Text>
+
+          <Button title="Entrar" marginBottom="s12" />
+
+          <Button title="Loading" loading />
+        </View>
+      </SafeAreaView>
+    </ThemeProvider>
   );
 }
 
