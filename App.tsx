@@ -11,6 +11,7 @@ import {Text} from './src/components/Text';
 import {ThemeProvider} from '@shopify/restyle';
 import {theme} from './src/theme/theme';
 import {Button} from './src/components/Button';
+import {EyeOffIcon} from './src/assets/icons/EyeOffIcon';
 
 function App(): JSX.Element {
   return (
@@ -22,6 +23,8 @@ function App(): JSX.Element {
           <Button title="Entrar" marginBottom="s12" />
 
           <Button title="Loading" loading />
+
+          <EyeOffIcon />
         </View>
       </SafeAreaView>
     </ThemeProvider>
