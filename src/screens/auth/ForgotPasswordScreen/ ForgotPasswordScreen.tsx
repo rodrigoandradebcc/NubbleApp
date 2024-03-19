@@ -1,13 +1,21 @@
 import React from 'react';
 import {Screen} from '../../../components/Screen/Screen';
 import {Text} from '../../../components/Text';
-import {TextInput} from '../../../components/TextInput/TextInput';
 import {Button} from '../../../components/Button';
 import {useResetNavigationSuccess} from '../../../hooks/useResetNavigationSuccess';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useForm} from 'react-hook-form';
+import {
+  forgotPasswordSchema,
+  ForgotPasswordSchema,
+} from './forgotPasswordSchema';
+import {FormTextInput} from '../../../components/Form/FormTextInput';
 
 export function ForgotPasswordScreen() {
   const {reset} = useResetNavigationSuccess();
-  function submitForm() {
+  function submitForm(values: ForgotPasswordSchema) {
+    console.log('values', values);
+
     reset({
       title: `Enviamos as instruções ${'\n'}para seu e-mail`,
       description:
@@ -19,6 +27,14 @@ export function ForgotPasswordScreen() {
     });
   }
 
+  const {control, handleSubmit, formState} = useForm<ForgotPasswordSchema>({
+    resolver: zodResolver(forgotPasswordSchema),
+    mode: 'onChange',
+    defaultValues: {
+      email: '',
+    },
+  });
+
   return (
     <Screen canGoBack>
       <Text preset="headingLarge" mb="s16">
@@ -27,12 +43,20 @@ export function ForgotPasswordScreen() {
       <Text preset="paragraphLarge" mb="s32">
         Digite seu e-mail e enviaremos as instruções para redefinição de senha
       </Text>
-      <TextInput
+
+      <FormTextInput
+        control={control}
+        name="email"
         label="E-mail"
         placeholder="Digite seu e-mail"
         boxProps={{mb: 's40'}}
       />
-      <Button title="Recuperar senha" onPress={submitForm} />
+
+      <Button
+        disabled={!formState.isValid}
+        title="Recuperar senha"
+        onPress={handleSubmit(submitForm)}
+      />
     </Screen>
   );
 }
